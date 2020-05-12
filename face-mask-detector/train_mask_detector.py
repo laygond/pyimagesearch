@@ -10,6 +10,7 @@ from tensorflow.keras.layers import Flatten
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Input
 from tensorflow.keras.models import Model
+from tensorflow.train import AdamOptimizer
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from tensorflow.keras.preprocessing.image import img_to_array
@@ -31,7 +32,7 @@ ap.add_argument("-d", "--dataset", required=True,
 ap.add_argument("-p", "--plot", type=str, default="plot.png",
 	help="path to output loss/accuracy plot")
 ap.add_argument("-m", "--model", type=str,
-	default="mask_detector.model",
+	default="mask_detector.h5", # model",
 	help="path to output face mask detector model")
 args = vars(ap.parse_args())
 

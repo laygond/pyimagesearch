@@ -5,10 +5,15 @@
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.models import load_model
+#from tensorflow import ConfigProto
 import numpy as np
 import argparse
 import cv2
 import os
+
+# Prevent tensorflow from allocating the totality of a GPU memory
+# config = ConfigProto()
+# config.gpu_options.allow_growth = True
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
@@ -62,7 +67,7 @@ for i in range(0, detections.shape[2]):
 		# compute the (x, y)-coordinates of the bounding box for
 		# the object
 		box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
-		print(detections[0, 0, i, :])
+		print("detection vector: ", detections[0, 0, i, :])
 		(startX, startY, endX, endY) = box.astype("int")
 
 		# ensure the bounding boxes fall within the dimensions of
@@ -81,8 +86,7 @@ for i in range(0, detections.shape[2]):
 
 		# pass the face through the model to determine if the face
 		# has a mask or not
-		(mask, withoutMask) = model.predict(face)[0]
-		print(model.predict(face))
+		(mask, withoutMask) = model.predict(face)[0] #[0] gets rid of double brackets
 
 		# determine the class label and color we'll use to draw
 		# the bounding box and text
