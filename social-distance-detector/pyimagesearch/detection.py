@@ -5,10 +5,18 @@ import numpy as np
 import cv2
 
 def detect_people(frame, net, ln, personIdx=0):
+	"""
+	Uses YOLO V3 to detect people and Non-Maxima Suppression to clean results.
+	frame : The frame from your video file or directly from your webcam
+	net   : The pre-initialized and pre-trained YOLO object detection model
+	ln    : The YOLO CNN output layer names
+	personIdx: The YOLO model detects many classes of objects; we only need the person class index			 
+	"""
+	
 	# grab the dimensions of the frame and  initialize the list of
 	# results
 	(H, W) = frame.shape[:2]
-	results = []
+	results = [] # will hold: (1) the person prediction probability, (2) bounding box coordinates for the detection, and (3) the centroid of the object.
 
 	# construct a blob from the input frame and then perform a forward
 	# pass of the YOLO object detector, giving us our bounding boxes
@@ -22,7 +30,7 @@ def detect_people(frame, net, ln, personIdx=0):
 	# confidences, respectively
 	boxes = []
 	centroids = []
-	confidences = []
+	confidences = []   # probabilities
 
 	# loop over each of the layer outputs
 	for output in layerOutputs:
@@ -74,6 +82,10 @@ def detect_people(frame, net, ln, personIdx=0):
 			# and the centroid
 			r = (confidences[i], (x, y, x + w, y + h), centroids[i])
 			results.append(r)
-
+	
+	# # EXTRA: shorter alternative so that later adjust box
+	# if len(idxs) > 0:
+	# 	results= [(confidences[i], boxes[i], centroids[i]) for i in idxs.flatten()]
+	
 	# return the list of results
 	return results

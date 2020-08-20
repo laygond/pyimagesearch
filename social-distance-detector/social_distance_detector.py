@@ -5,7 +5,7 @@
 # import the necessary packages
 from pyimagesearch import social_distancing_config as config
 from pyimagesearch.detection import detect_people
-from scipy.spatial import distance as dist
+from scipy.spatial import distance as dist  # for euclidean
 import numpy as np
 import argparse
 import imutils
@@ -65,9 +65,11 @@ while True:
 	results = detect_people(frame, net, ln,
 		personIdx=LABELS.index("person"))
 
+
+	# --- VIOLATION SECTION ---
 	# initialize the set of indexes that violate the minimum social
 	# distance
-	violate = set()
+	violate = set() # listing of people who violate social distance regulations
 
 	# ensure there are *at least* two people detections (required in
 	# order to compute our pairwise distance maps)
@@ -89,6 +91,8 @@ while True:
 					violate.add(i)
 					violate.add(j)
 
+
+	# --- DISPLAY SECTION ---
 	# loop over the results
 	for (i, (prob, bbox, centroid)) in enumerate(results):
 		# extract the bounding box and centroid coordinates, then
