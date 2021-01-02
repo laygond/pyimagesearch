@@ -1,3 +1,5 @@
 social-distance-detector/yolo-coco/yolov3.weights
 social-distance-detector/pyimagesearch/__pycache__/
 human-activity-recognition/resnet-34_kinetics.onnx
+human-activity-recognition/videos/demo.mp4
+human-activity-recognition/output*
